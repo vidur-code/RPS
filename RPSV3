@@ -1,0 +1,107 @@
+import json
+import random as r
+with open("stats.json","r") as file:
+    stats=json.load(file)
+if stats["wins"]>1:
+    print("You have ",stats["wins"]," wins")
+elif stats["wins"]==1:
+    print("You have 1 win")
+else:
+    print("You have no wins")
+if stats["losses"]>1:
+    print("You have ",stats["losses"]," losses")
+elif stats["losses"]==1:
+    print("You have one loss")
+else:
+    print("You have no losses")
+if stats["draws"]>1:
+    print("You have ",stats["draws"]," draws")
+elif stats["draws"]==1:
+    print("You have one draw")
+else:
+    print("You have 0 draws")
+print("Your current streak is",stats["current_streak"])
+print("Your longest streak is",stats["longest_win_streak"])
+#in arr[] 1 is rock 2 is paper and 3 is scissors
+arr=[1,2,3]
+x=None
+print("This a rock paper sccisors game")
+while x!="n":
+    x=input("Rock, Paper or Scissors= ").lower()
+    if x not in ["rock","paper","scissors"]:
+        print("Invalid choice! Choose again")
+        continue
+    elif x== 'rock':
+        x=1
+        stats["choices"]["rock"]+=1
+        c1=r.choice(arr)
+        if c1==2:
+            print("I picked Paper and Paper beats Rock!")
+            stats["losses"]+=1
+            stats["current_streak"]=0
+        elif c1==x:
+            print("I also picked Rock, that makes this a Draw!")
+            stats["draws"]+=1
+            stats["current_streak"]=0
+        else:
+            print("I picked Scissors, and Scisors loses to Rock!")
+            stats["wins"]+=1
+            stats["current_streak"]+=1
+            if stats["current_streak"]>stats["longest_win_streak"]:
+                stats["longest_win_streak"]=stats["current_streak"]
+    elif x=='paper':
+        x=2
+        stats["choices"]["paper"]+=1
+        c1=r.choice(arr)
+        if c1==1:
+            print("I picked Rock, and Rock loses to Paper!")
+            stats["wins"]+=1
+            stats["current_streak"]+=1
+            if stats["current_streak"]>stats["longest_win_streak"]:
+                stats["longest_win_streak"]=stats["current_streak"]
+        elif c1==x:
+            print("I also picked Paper, that makes this a Draw!")
+            stats["draws"]+=1
+            stats["current_streak"]=0
+        else:
+            print("I picked Scissors, and Scissors beats Paper")
+            stats["losses"]+=1
+            stats["current_streak"]=0
+    elif x=='scissors':
+        x=3
+        stats["choices"]["scissors"]+=1
+        c1=r.choice(arr)
+        if c1==1:
+            print("I picked Rock, and Rock beats Scissors!")
+            stats["losses"]+=1
+            stats["current_streak"]=0
+        elif c1==x:
+            print("I also picked Scissors, that makes this a Draw!")
+            stats["draws"]+=1
+            stats["current_streak"]=0
+        else:
+            print("I picked Paper, and Paper loses to Scissors!")
+            stats["wins"]+=1
+            stats["current_streak"]+=1
+            if stats["current_streak"]>stats["longest_win_streak"]:
+                stats["longest_win_streak"]=stats["current_streak"]
+    x=(input("Would you like to play again?(Y/n)= ")).lower()
+if stats["losses"]==0:
+    kdr="N/A"
+else:
+    kdr=stats["wins"]/stats["losses"]
+    kdr=round(kdr,2)
+matches=stats["choices"]["rock"]+stats["choices"]["paper"]+stats["choices"]["scissors"]
+rp=(stats["choices"]["rock"]/matches)*100
+pp=(stats["choices"]["paper"]/matches)*100
+sp=(stats["choices"]["scissors"]/matches)*100
+print("Ok! Thanks for playing,you played,",matches,"\n" \
+"your win amount was",stats["wins"],"\n" \
+"loss amount was",stats["losses"],"\n" \
+"draw amount,",stats["draws"],"\n" \
+"win/loss ratio was",kdr,"wins per loss\n" \
+"Your lifetime percentage you picked rock was ",rp,"%\n" \
+"Your lifetime pecentage you picked paper was ",pp,"%\n" \
+"and finally, your lifetime percentage you picked scissors were ",sp,"%")
+with open("stats.json","w") as file:
+    json.dump(stats,file,indent=4)
