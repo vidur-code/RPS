@@ -51,8 +51,6 @@ Added:
 
 ### V3
 
-Planned:
-
 * Persistent statistics
 * JSON-based data storage
 * Win streak tracking
@@ -60,12 +58,13 @@ Planned:
 * Choice distribution
 * Expanded game statistics
 * Improved data management
-* Match/game modes
-* Difficulty options
-* Save/load functionality
+
 
 ### V4
 
 Planned:
 
 * Graphical User Interface (GUI)
+* Match/game modes
+* Difficulty options
+* Save/load functionality
